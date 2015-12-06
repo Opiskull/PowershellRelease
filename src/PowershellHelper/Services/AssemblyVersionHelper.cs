@@ -47,7 +47,7 @@ namespace PowershellHelper.Services
         public string IncrementAssemblyVersionBuild(string version)
         {
             var ver = Version.Parse(version);
-            return new Version(ver.Major, ver.Minor, ver.Build +1, ver.Revision).ToString();
+            return new Version(ver.Major, ver.Minor, ver.Build +1, 0).ToString();
         }
     }
 }
