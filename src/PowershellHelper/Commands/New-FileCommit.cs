@@ -1,0 +1,55 @@
+﻿using System.Management.Automation;
+using PowershellHelper.Services;
+
+namespace PowershellHelper.Commands
+{
+    [Cmdlet(VerbsCommon.New, "FileCommit",
+      DefaultParameterSetName = "VersionCommit")]
+    public class NewAssemblyVersionCommit : PSCmdlet
+    {
+        [Parameter(
+              ParameterSetName = "VersionCommit",
+              Mandatory = true,
+              ValueFromPipeline = true, Position = 0)]
+        public string FilePath { get; set; }
+
+        [Parameter(
+            ParameterSetName = "VersionCommit",
+            Mandatory = true,
+            ValueFromPipeline = true, Position = 1)]
+        public string RepositoryPath { get; set; }
+
+        [Parameter(
+            ParameterSetName = "VersionCommit",
+            Mandatory = true,
+            ValueFromPipeline = true)]
+        public string UserName { get; set; }
+
+        [Parameter(
+            ParameterSetName = "VersionCommit",
+            Mandatory = true,
+            ValueFromPipeline = true)]
+        public string UserEmail { get; set; }
+
+        [Parameter(
+            ParameterSetName = "VersionCommit",
+            Mandatory = true,
+            ValueFromPipeline = true)]
+        public string Message { get; set; }
+
+        [Parameter]
+        public string Tag { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            var gitHelper = new GitHelper(RepositoryPath);
+            WriteVerbose("CommitFile");
+            gitHelper.CommitFile(FilePath, UserName, UserEmail, Message);
+            if (!string.IsNullOrWhiteSpace(Tag))
+            {
+                WriteVerbose($"CreateTag {Tag}");
+                gitHelper.CreateTag(Tag);
+            }
+        }
+    }
+}
