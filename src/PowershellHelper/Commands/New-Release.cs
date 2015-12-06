@@ -11,31 +11,27 @@ namespace PowershellHelper.Commands
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
-            ValueFromPipeline = true, Position = 0)]
+            Position = 0)]
         public string AssemblyFilePath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
-            ValueFromPipeline = true, Position = 1)]
+            Position = 1)]
         public string RepositoryPath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            Mandatory = true)]
         public string UserName { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            Mandatory = true)]
         public string UserEmail { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            ParameterSetName = "VersionCommit")]
         public string UserPassword { get; set; }
 
         protected override void ProcessRecord()

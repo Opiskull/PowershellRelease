@@ -14,7 +14,8 @@ namespace PowershellHelper.Commands
             ValueFromPipeline = true, Position = 0)]
         public string RepositoryPath { get; set; }
 
-        [Parameter]
+        [Parameter(
+            Mandatory = true)]
         public string UserName { get; set; }
 
         [Parameter]

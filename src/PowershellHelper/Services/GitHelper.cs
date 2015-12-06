@@ -1,5 +1,6 @@
 ﻿using System;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 
 namespace PowershellHelper.Services
 {
@@ -44,26 +45,38 @@ namespace PowershellHelper.Services
             {
                 var pushOptions = new PushOptions()
                 {
-                    CredentialsProvider = (url, userNameFromUrl, types) => new UsernamePasswordCredentials
-                    {
-                        Username = username,
-                        Password = password.ToString()
-                    }
+                    CredentialsProvider = CreateCredentialsProvider(username,password)
                 };
                 repositoryPush(repository, pushOptions);
             }
         }
 
-        public void PushTag(string username, string password, string tag)
+        private CredentialsHandler CreateCredentialsProvider(string username, string password)
+        {
+            return (url, userNameFromUrl, types) =>
+            {
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    return new DefaultCredentials();
+                }
+                return new UsernamePasswordCredentials
+                {
+                    Username = username,
+                    Password = password
+                };
+            };
+        }
+
+        public void PushTag(string username, string password, string tag, string origin = "origin")
         {
             Push(username, password, (repository, pushOptions) =>
               {
-                  var remote = repository.Network.Remotes["origin"];
+                  var remote = repository.Network.Remotes[origin];
                   repository.Network.Push(remote, repository.Tags[tag].CanonicalName, pushOptions);
               });
         }
 
-        public void PushHeadBranch(string username, string password)
+        public void PushHeadBranch(string username, string password, string origin = "origin")
         {
             Push(username, password, (repository, pushOptions) =>
             {
@@ -73,7 +86,7 @@ namespace PowershellHelper.Services
                 }
                 else
                 {
-                    var remote = repository.Network.Remotes["origin"];
+                    var remote = repository.Network.Remotes[origin];
                     repository.Network.Push(remote, repository.Head.CanonicalName, pushOptions);
                 }
             });
