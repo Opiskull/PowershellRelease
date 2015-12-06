@@ -48,6 +48,10 @@ namespace PowershellHelper.Commands
             gitHelper.CommitFile(AssemblyFilePath, UserName, UserEmail, $"chore(release): {newVersion}");
             WriteVerbose($"Create Tag {newVersion}");
             gitHelper.CreateTag(newVersion);
+            if (string.IsNullOrWhiteSpace(UserPassword))
+            {
+                WriteWarning("The UserPassword is empty and DefaultCredentials will be used");
+            }
             WriteVerbose($"Push Tag {newVersion}");
             gitHelper.PushTag(UserName, UserPassword, newVersion);
             var branch = gitHelper.HeadBranchName();
