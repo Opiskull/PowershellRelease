@@ -7,7 +7,7 @@ namespace PowershellHelper.Commands
         DefaultParameterSetName = "FileName")]
     public class SetAssemblyVersion : PSCmdlet
     {
-        private AssemblyVersionHelper AssemblyVersionHelper { get; } = new AssemblyVersionHelper();
+        private AssemblyVersionFileHelper AssemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
 
         [Parameter(
             ParameterSetName = "FileName",
@@ -26,19 +26,19 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var newVersion = NewVersion ?? AssemblyVersionHelper.ReadAssemblyVersionFromFile(FilePath);
+            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath);
             if (IncrementBuild)
             {
                 WriteVerbose($"IncrementBuild {newVersion}");
-                newVersion = AssemblyVersionHelper.IncrementAssemblyVersionBuild(newVersion);
+                newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionBuild(newVersion);
             }
             if (IncrementRevision)
             {
                 WriteVerbose($"IncrementRevision {newVersion}");
-                newVersion = AssemblyVersionHelper.IncrementAssemblyVersionRevision(newVersion);
+                newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
             WriteVerbose($"Set AssemblyVersion in {FilePath} to {newVersion}");
-            AssemblyVersionHelper.WriteAssemblyFile(FilePath, newVersion);
+            AssemblyVersionFileHelper.WriteAssemblyFile(FilePath, newVersion);
             WriteObject(newVersion);
         }
     }

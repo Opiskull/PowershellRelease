@@ -57,8 +57,8 @@
     <Compile Include="Commands\New-Release.cs" />
     <Compile Include="Commands\Push-Repository.cs" />
     <Compile Include="Commands\New-FileCommit.cs" />
-    <Compile Include="Services\AssemblyVersionHelper.cs" />
-    <Compile Include="Services\GitHelper.cs" />
+    <Compile Include="Services\AssemblyVersionFileHelper.cs" />
+    <Compile Include="Services\GitRepositoryHelper.cs" />
     <Compile Include="Commands\Get-AssemblyVersion.cs" />
     <Compile Include="Commands\Set-AssemblyVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

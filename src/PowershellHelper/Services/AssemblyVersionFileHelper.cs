@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace PowershellHelper.Services
 {
-    public class AssemblyVersionHelper
+    public class AssemblyVersionFileHelper
     {
         public const string AssemblyVersionPattern = "\\[assembly: AssemblyVersion\\(\"(.*)\"\\)\\]";
         public const string AssemblyFileVersionPattern = "\\[assembly: AssemblyFileVersion\\(\"(.*)\"\\)\\]";

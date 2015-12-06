@@ -26,18 +26,18 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var gitHelper = new GitHelper(RepositoryPath);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath,UserName,UserPassword);
             if (Tags?.Length > 0)
             {
                 foreach (var tag in Tags)
                 {
                     WriteVerbose($"Push Tag {tag}");
-                    gitHelper.PushTag(UserName, UserPassword, tag);
+                    gitHelper.PushTag(tag);
                 }
             }
-            var branch = gitHelper.HeadBranchName();
+            var branch = gitHelper.Repository.Head.Name;
             WriteVerbose($"Push Branch {branch} to Remote origin");
-            gitHelper.PushHeadBranch(UserName, UserPassword);
+            gitHelper.PushHeadBranch();
         }
     }
 }

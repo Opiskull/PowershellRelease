@@ -36,27 +36,33 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var gitHelper = new GitHelper(RepositoryPath);
-            var assemblyHelper = new AssemblyVersionHelper();
+            if (string.IsNullOrWhiteSpace(UserPassword))
+            {
+                WriteWarning("The UserPassword is empty and DefaultCredentials will be used");
+            }
 
+            var gitHelper = new GitRepositoryHelper(RepositoryPath,UserName,UserPassword);
+            var assemblyHelper = new AssemblyVersionFileHelper();
+
+            // Assembly
             var readVersion = assemblyHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
             WriteVerbose($"Found Version {readVersion}");
             var newVersion = assemblyHelper.IncrementAssemblyVersionRevision(readVersion);
             WriteVerbose($"Increment Version to {newVersion}");
             assemblyHelper.WriteAssemblyFile(AssemblyFilePath, newVersion);
+
+            // Git
             WriteVerbose($"Commit File {AssemblyFilePath}");
             gitHelper.CommitFile(AssemblyFilePath, UserName, UserEmail, $"chore(release): {newVersion}");
             WriteVerbose($"Create Tag {newVersion}");
             gitHelper.CreateTag(newVersion);
-            if (string.IsNullOrWhiteSpace(UserPassword))
-            {
-                WriteWarning("The UserPassword is empty and DefaultCredentials will be used");
-            }
+
+            // Push
             WriteVerbose($"Push Tag {newVersion}");
-            gitHelper.PushTag(UserName, UserPassword, newVersion);
-            var branch = gitHelper.HeadBranchName();
+            gitHelper.PushTag(newVersion);
+            var branch = gitHelper.Repository.Head.Name;
             WriteVerbose($"Push Branch {branch} to Remote origin");
-            gitHelper.PushHeadBranch(UserName, UserPassword);
+            gitHelper.PushHeadBranch();
         }
     }
 }

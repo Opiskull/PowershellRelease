@@ -7,7 +7,7 @@ namespace PowershellHelper.Commands
         DefaultParameterSetName = "AssemblyVersion")]
     public class GetAssemblyVersion : PSCmdlet
     {
-        private AssemblyVersionHelper AssemblyVersionHelper { get; } = new AssemblyVersionHelper();
+        private AssemblyVersionFileHelper AssemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
 
         [Parameter(
             ParameterSetName = "AssemblyVersion",
@@ -18,7 +18,7 @@ namespace PowershellHelper.Commands
         protected override void ProcessRecord()
         {
             WriteVerbose($"Get-AssemblyVersion in {FilePath}");
-            WriteObject(AssemblyVersionHelper.ReadAssemblyVersionFromFile(FilePath));
+            WriteObject(AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath));
         }
     }
 }

@@ -39,7 +39,7 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var gitHelper = new GitHelper(RepositoryPath);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName);
             WriteVerbose("CommitFile");
             gitHelper.CommitFile(FilePath, UserName, UserEmail, Message);
             if (!string.IsNullOrWhiteSpace(Tag))
