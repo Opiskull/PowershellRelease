@@ -11,12 +11,14 @@ namespace PowershellHelper.Commands
             ParameterSetName = "VersionCommit",
             Mandatory = true,
             Position = 0)]
+        [ValidateNotNullOrEmpty]
         public string FilePath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
             Position = 1)]
+        [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(

@@ -12,12 +12,14 @@ namespace PowershellHelper.Commands
             ParameterSetName = "VersionCommit",
             Mandatory = true,
             Position = 0)]
+        [ValidateNotNullOrEmpty]
         public string AssemblyFilePath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
             Position = 1)]
+        [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(
@@ -49,7 +51,7 @@ namespace PowershellHelper.Commands
             WriteVerbose($"Found Version {readVersion}");
             var newVersion = assemblyHelper.IncrementAssemblyVersionRevision(readVersion);
             WriteVerbose($"Increment Version to {newVersion}");
-            assemblyHelper.WriteAssemblyFile(AssemblyFilePath, newVersion);
+            assemblyHelper.WriteAssemblyVersionToFile(AssemblyFilePath, newVersion);
 
             // Git
             WriteVerbose($"Commit File {AssemblyFilePath}");

@@ -31,7 +31,7 @@ namespace PowershellHelper.Services
             return assemblyContent;
         }
 
-        public void WriteAssemblyFile(string assemblyPath, string version)
+        public void WriteAssemblyVersionToFile(string assemblyPath, string version)
         {
             var content = File.ReadAllText(assemblyPath);
             content = WriteAssemblyVersion(content, version);

@@ -13,12 +13,15 @@ namespace PowershellHelper.Commands
             ParameterSetName = "AssemblyVersion",
             Mandatory = true,
             Position = 0)]
+        [ValidateNotNullOrEmpty]
         public string FilePath { get; set; }
 
         protected override void ProcessRecord()
         {
             WriteVerbose($"Get-AssemblyVersion in {FilePath}");
-            WriteObject(AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath));
+            var version = AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath);
+            WriteVerbose($"Found version {version}");
+            WriteObject(version);
         }
     }
 }

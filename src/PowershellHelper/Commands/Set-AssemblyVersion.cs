@@ -13,6 +13,7 @@ namespace PowershellHelper.Commands
             ParameterSetName = "FileName",
             Mandatory = true,
             Position = 0)]
+        [ValidateNotNullOrEmpty]
         public string FilePath { get; set; }
 
         [Parameter(Position = 1)]
@@ -38,7 +39,7 @@ namespace PowershellHelper.Commands
                 newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
             WriteVerbose($"Set AssemblyVersion in {FilePath} to {newVersion}");
-            AssemblyVersionFileHelper.WriteAssemblyFile(FilePath, newVersion);
+            AssemblyVersionFileHelper.WriteAssemblyVersionToFile(FilePath, newVersion);
             WriteObject(newVersion);
         }
     }

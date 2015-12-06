@@ -12,6 +12,7 @@ namespace PowershellHelper.Commands
             ParameterSetName = "VersionCommit",
             Mandatory = true,
             Position = 0)]
+        [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(
