@@ -39,31 +39,28 @@ namespace PowershellHelper.Services
             }
         }
 
-        private void Push(string username, string password, Action<Repository,PushOptions> repositoryPush)
+        private void Push(string username, string password, Action<Repository, PushOptions> repositoryPush)
         {
-            using(var repository = new Repository(RepositoryPath))
+            using (var repository = new Repository(RepositoryPath))
             {
                 var pushOptions = new PushOptions()
                 {
-                    CredentialsProvider = CreateCredentialsProvider(username,password)
+                    CredentialsProvider = (url, userNameFromUrl, types) => CreateCredentials(username, password)
                 };
                 repositoryPush(repository, pushOptions);
             }
         }
 
-        private CredentialsHandler CreateCredentialsProvider(string username, string password)
+        private Credentials CreateCredentials(string username, string password)
         {
-            return (url, userNameFromUrl, types) =>
+            if (string.IsNullOrWhiteSpace(password))
             {
-                if (string.IsNullOrWhiteSpace(password))
-                {
-                    return new DefaultCredentials();
-                }
-                return new UsernamePasswordCredentials
-                {
-                    Username = username,
-                    Password = password
-                };
+                return new DefaultCredentials();
+            }
+            return new UsernamePasswordCredentials
+            {
+                Username = username,
+                Password = password
             };
         }
 
