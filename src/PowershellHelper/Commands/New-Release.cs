@@ -43,7 +43,7 @@ namespace PowershellHelper.Commands
             WriteVerbose($"Found Version {readVersion}");
             var newVersion = assemblyHelper.IncrementAssemblyVersionRevision(readVersion);
             WriteVerbose($"Increment Version to {newVersion}");
-            assemblyHelper.WriteAssemblyFile(AssemblyFilePath,newVersion);
+            assemblyHelper.WriteAssemblyFile(AssemblyFilePath, newVersion);
             WriteVerbose($"Commit File {AssemblyFilePath}");
             gitHelper.CommitFile(AssemblyFilePath, UserName, UserEmail, $"chore(release): {newVersion}");
             WriteVerbose($"Create Tag {newVersion}");

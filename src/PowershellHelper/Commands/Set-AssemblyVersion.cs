@@ -4,15 +4,15 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.Set, "AssemblyVersion",
-      DefaultParameterSetName = "FileName")]
+        DefaultParameterSetName = "FileName")]
     public class SetAssemblyVersion : PSCmdlet
     {
         private AssemblyVersionHelper AssemblyVersionHelper { get; } = new AssemblyVersionHelper();
 
         [Parameter(
-          ParameterSetName = "FileName",
-          Mandatory = true,
-          ValueFromPipeline = true, Position = 0)]
+            ParameterSetName = "FileName",
+            Mandatory = true,
+            Position = 0)]
         public string FilePath { get; set; }
 
         [Parameter(Position = 1)]

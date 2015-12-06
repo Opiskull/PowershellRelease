@@ -67,10 +67,10 @@ namespace PowershellHelper.Services
         public void PushTag(string username, string password, string tag, string origin = "origin")
         {
             Push(username, password, (repository, pushOptions) =>
-              {
-                  var remote = repository.Network.Remotes[origin];
-                  repository.Network.Push(remote, repository.Tags[tag].CanonicalName, pushOptions);
-              });
+            {
+                var remote = repository.Network.Remotes[origin];
+                repository.Network.Push(remote, repository.Tags[tag].CanonicalName, pushOptions);
+            });
         }
 
         public void PushHeadBranch(string username, string password, string origin = "origin")

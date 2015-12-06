@@ -4,37 +4,34 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.New, "FileCommit",
-      DefaultParameterSetName = "VersionCommit")]
+        DefaultParameterSetName = "VersionCommit")]
     public class NewAssemblyVersionCommit : PSCmdlet
     {
         [Parameter(
-              ParameterSetName = "VersionCommit",
-              Mandatory = true,
-              ValueFromPipeline = true, Position = 0)]
+            ParameterSetName = "VersionCommit",
+            Mandatory = true,
+            Position = 0)]
         public string FilePath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
-            ValueFromPipeline = true, Position = 1)]
+            Position = 1)]
         public string RepositoryPath { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            Mandatory = true)]
         public string UserName { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            Mandatory = true)]
         public string UserEmail { get; set; }
 
         [Parameter(
             ParameterSetName = "VersionCommit",
-            Mandatory = true,
-            ValueFromPipeline = true)]
+            Mandatory = true)]
         public string Message { get; set; }
 
         [Parameter]

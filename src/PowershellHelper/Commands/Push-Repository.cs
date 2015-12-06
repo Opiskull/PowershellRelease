@@ -5,13 +5,13 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.Push, "Repository",
-      DefaultParameterSetName = "VersionCommit")]
+        DefaultParameterSetName = "VersionCommit")]
     public class PushRepository : PSCmdlet
     {
         [Parameter(
             ParameterSetName = "VersionCommit",
             Mandatory = true,
-            ValueFromPipeline = true, Position = 0)]
+            Position = 0)]
         public string RepositoryPath { get; set; }
 
         [Parameter(
@@ -32,12 +32,12 @@ namespace PowershellHelper.Commands
                 foreach (var tag in Tags)
                 {
                     WriteVerbose($"Push Tag {tag}");
-                    gitHelper.PushTag(UserName,UserPassword,tag);
+                    gitHelper.PushTag(UserName, UserPassword, tag);
                 }
             }
             var branch = gitHelper.HeadBranchName();
             WriteVerbose($"Push Branch {branch} to Remote origin");
-            gitHelper.PushHeadBranch(UserName,UserPassword);
+            gitHelper.PushHeadBranch(UserName, UserPassword);
         }
     }
 }
