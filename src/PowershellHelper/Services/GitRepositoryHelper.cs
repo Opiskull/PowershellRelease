@@ -57,15 +57,15 @@ namespace PowershellHelper.Services
             Push(Repository.Tags[tag].CanonicalName);
         }
 
-        public void PushHeadBranch(string origin = "origin")
+        public void PushBranch(Branch branch, string origin = "origin")
         {
-            if (Repository.Head.IsTracking)
+            if (branch.IsTracking)
             {
-                Repository.Network.Push(Repository.Head, _pushOptions);
+                Repository.Network.Push(branch, _pushOptions);
             }
             else
             {
-                Push(Repository.Head.CanonicalName);
+                Push(branch.CanonicalName);
             }
         }
     }

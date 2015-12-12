@@ -36,9 +36,9 @@ namespace PowershellHelper.Commands
                     gitHelper.PushTag(tag);
                 }
             }
-            var branch = gitHelper.Repository.Head.Name;
-            WriteVerbose($"Push Branch {branch} to Remote origin");
-            gitHelper.PushHeadBranch();
+            var branch = gitHelper.Repository.Head;
+            WriteVerbose($"Push Branch {branch.Name} to Remote origin");
+            gitHelper.PushBranch(branch);
         }
     }
 }

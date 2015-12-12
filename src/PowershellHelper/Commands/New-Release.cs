@@ -40,12 +40,12 @@ namespace PowershellHelper.Commands
         {
             if (string.IsNullOrWhiteSpace(UserPassword))
             {
-                WriteWarning("The UserPassword is empty and DefaultCredentials will be used");
+                WriteWarning($"The {nameof(UserPassword)} is empty and DefaultCredentials will be used");
             }
 
             var gitHelper = new GitRepositoryHelper(RepositoryPath,UserName,UserPassword);
             var assemblyHelper = new AssemblyVersionFileHelper();
-
+            
             // Assembly
             var readVersion = assemblyHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
             WriteVerbose($"Found Version {readVersion}");
@@ -62,9 +62,9 @@ namespace PowershellHelper.Commands
             // Push
             WriteVerbose($"Push Tag {newVersion}");
             gitHelper.PushTag(newVersion);
-            var branch = gitHelper.Repository.Head.Name;
-            WriteVerbose($"Push Branch {branch} to Remote origin");
-            gitHelper.PushHeadBranch();
+            var branch = gitHelper.Repository.Head;
+            WriteVerbose($"Push Branch {branch.Name} to Remote origin");
+            gitHelper.PushBranch(branch);
         }
     }
 }
