@@ -70,6 +70,7 @@
     <Compile Include="AssemblyVersionHelperTest.cs" />
     <Compile Include="GitHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZipFileHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
