@@ -6,14 +6,18 @@ namespace PowershellHelper.Services
 {
     public class AssemblyVersionFileHelper
     {
-        public const string AssemblyVersionPattern = "\\[assembly: AssemblyVersion\\(\"(.*)\"\\)\\]";
-        public const string AssemblyFileVersionPattern = "\\[assembly: AssemblyFileVersion\\(\"(.*)\"\\)\\]";
+        public const string AssemblyVersionPattern = "^\\[assembly: AssemblyVersion\\(\"(.*)\"\\)\\]";
+        public const string AssemblyFileVersionPattern = "^\\[assembly: AssemblyFileVersion\\(\"(.*)\"\\)\\]";
 
         public string ReadAssemblyVersion(string assemblyContent)
         {
             var matches = Regex.Matches(assemblyContent, AssemblyVersionPattern);
-            var version = matches?[0].Groups?[1].Value;
-            return version ?? string.Empty;
+            if (matches.Count == 0)
+            {
+                return string.Empty;
+            }
+            var match = matches[0];
+            return match.Success ? match.Groups[1].Value : string.Empty;
         }
 
         public string ReadAssemblyVersionFromFile(string assemblyPath)
