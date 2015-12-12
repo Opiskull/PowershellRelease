@@ -1,6 +1,7 @@
 # PowershellRelease
 
-# How to use
+## How to use
+copy folder with dlls and import the module with Import-Module .\PowershellHelper.dll
 
 ## Commands
 
