@@ -11,7 +11,7 @@ namespace PowershellHelper.Services
 
         public string ReadAssemblyVersion(string assemblyContent)
         {
-            var matches = Regex.Matches(assemblyContent, AssemblyVersionPattern);
+            var matches = Regex.Matches(assemblyContent, AssemblyVersionPattern,RegexOptions.Multiline);
             if (matches.Count == 0)
             {
                 return string.Empty;

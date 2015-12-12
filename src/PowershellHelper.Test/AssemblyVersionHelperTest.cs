@@ -17,9 +17,9 @@ namespace PowershellHelper.Test
         }
 
         [Theory]
-        [InlineData("[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n[assembly: AssemblyFileVersion(\"1.1.1.1\")] \r\n","1.1.1.1")]
-        [InlineData("//[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n//[assembly: AssemblyFileVersion(\"1.1.1.1\")] \r\n", "")]
-        [InlineData("//[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n[assembly: AssemblyVersion(\"1.2.3.4\")] \r\n", "1.2.3.4")]
+        [InlineData("[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n[assembly: AssemblyFileVersion(\"1.1.1.1\")]\r\n","1.1.1.1")]
+        [InlineData("//[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n//[assembly: AssemblyFileVersion(\"1.1.1.1\")]\r\n", "")]
+        [InlineData("//[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n[assembly: AssemblyVersion(\"1.2.3.4\")]\r\n", "1.2.3.4")]
         public void TestReadAssemblyVersion(string assemblyContent, string version)
         {
             var assemblyVersion = AssemblyVersionFileHelper.ReadAssemblyVersion(assemblyContent);
