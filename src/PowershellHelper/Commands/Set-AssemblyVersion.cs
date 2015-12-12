@@ -14,7 +14,7 @@ namespace PowershellHelper.Commands
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string FilePath { get; set; }
+        public string AssemblyFilePath { get; set; }
 
         [Parameter(Position = 1)]
         public string NewVersion { get; set; }
@@ -27,7 +27,7 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath);
+            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
             if (IncrementBuild)
             {
                 WriteVerbose($"IncrementBuild {newVersion}");
@@ -38,8 +38,8 @@ namespace PowershellHelper.Commands
                 WriteVerbose($"IncrementRevision {newVersion}");
                 newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
-            WriteVerbose($"Set AssemblyVersion in {FilePath} to {newVersion}");
-            AssemblyVersionFileHelper.WriteAssemblyVersionToFile(FilePath, newVersion);
+            WriteVerbose($"Set AssemblyVersion in {AssemblyFilePath} to {newVersion}");
+            AssemblyVersionFileHelper.WriteAssemblyVersionToFile(AssemblyFilePath, newVersion);
             WriteObject(newVersion);
         }
     }

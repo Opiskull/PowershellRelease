@@ -14,12 +14,12 @@ namespace PowershellHelper.Commands
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string FilePath { get; set; }
+        public string AssemblyFilePath { get; set; }
 
         protected override void ProcessRecord()
         {
-            WriteVerbose($"Get-AssemblyVersion in {FilePath}");
-            var version = AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(FilePath);
+            WriteVerbose($"Get-AssemblyVersion in {AssemblyFilePath}");
+            var version = AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
             WriteVerbose($"Found version {version}");
             WriteObject(version);
         }

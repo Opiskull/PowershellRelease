@@ -8,7 +8,7 @@ copy folder with dlls and import the module with Import-Module .\PowershellHelpe
 ### Get-AssemblyVersion
 
 ```
-Get-AssemblyVersion [-FilePath] <string>
+Get-AssemblyVersion [-AssemblyFilePath] <string>
 [<CommonParameters>]
 ```
 	
@@ -43,6 +43,6 @@ Push-Repository [-RepositoryPath] <string> -UserName <string> [-UserPassword <st
 ### Set-AssemblyVersion
 
 ```
-Set-AssemblyVersion [-FilePath] <string> [[-NewVersion] <string>] [-IncrementBuild] [-IncrementRevision]
+Set-AssemblyVersion [-AssemblyFilePath] <string> [[-NewVersion] <string>] [-IncrementBuild] [-IncrementRevision]
 [<CommonParameters>]
 ```
