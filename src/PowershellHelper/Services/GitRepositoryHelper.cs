@@ -34,6 +34,11 @@ namespace PowershellHelper.Services
             };
         }
 
+        public string LatestCommitSha()
+        {
+            return Repository.Head.Tip.Sha;
+        }
+
         public void CommitFile(string filePath, string userName, string userEmail, string commitMessage)
         {
             Repository.Stage(filePath, new StageOptions());
@@ -68,5 +73,7 @@ namespace PowershellHelper.Services
                 Push(branch.CanonicalName);
             }
         }
+
+
     }
 }
