@@ -5,17 +5,18 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.Push, "Repository",
-        DefaultParameterSetName = "VersionCommit")]
+        DefaultParameterSetName = "PushRepository")]
     public class PushRepository : PSCmdlet
     {
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "PushRepository",
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(
+            ParameterSetName = "PushRepository",
             Mandatory = true)]
         public string UserName { get; set; }
 
@@ -27,7 +28,7 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var gitHelper = new GitRepositoryHelper(RepositoryPath,UserName,UserPassword);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName, UserPassword);
             if (Tags?.Length > 0)
             {
                 foreach (var tag in Tags)

@@ -5,35 +5,34 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.New, "Release",
-        DefaultParameterSetName = "VersionCommit")]
+        DefaultParameterSetName = "NewRelease")]
     public class NewRelease : PSCmdlet
     {
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "NewRelease",
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         public string AssemblyFilePath { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "NewRelease",
             Mandatory = true,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "NewRelease",
             Mandatory = true)]
         public string UserName { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "NewRelease",
             Mandatory = true)]
         public string UserEmail { get; set; }
 
-        [Parameter(
-            ParameterSetName = "VersionCommit")]
+        [Parameter]
         public string UserPassword { get; set; }
 
         protected override void ProcessRecord()
@@ -47,7 +46,8 @@ namespace PowershellHelper.Commands
             var assemblyHelper = new AssemblyVersionFileHelper();
             
             // Assembly
-            var readVersion = assemblyHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
+            var content = assemblyHelper.ReadAssemblyFileContent(AssemblyFilePath);
+            var readVersion = assemblyHelper.ReadAssemblyVersion(content);
             WriteVerbose($"Found Version {readVersion}");
             var newVersion = assemblyHelper.IncrementAssemblyVersionRevision(readVersion);
             WriteVerbose($"Increment Version to {newVersion}");

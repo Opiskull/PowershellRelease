@@ -60,10 +60,9 @@ namespace PowershellHelper.Services
             return WriteContentRegex(assemblyContent, AssemblyInformationalVersionPattern, newAssemblyInformationalVersion);
         }
         
-        public string ReadAssemblyVersionFromPath(string assemblyPath)
+        public string ReadAssemblyFileContent(string assemblyPath)
         {
-            var content = File.ReadAllText(assemblyPath);
-            return ReadAssemblyVersion(content);
+            return File.ReadAllText(assemblyPath);
         }
 
         public void WriteAssemblyVersionToPath(string assemblyPath, string version)

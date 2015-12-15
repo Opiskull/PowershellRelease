@@ -4,19 +4,20 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.Set, "AssemblyVersion",
-        DefaultParameterSetName = "AssemblyFilePath")]
+        DefaultParameterSetName = "SetAssemblyVersion")]
     public class SetAssemblyVersion : PSCmdlet
     {
-        private AssemblyVersionFileHelper AssemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
+        private AssemblyVersionFileHelper _assemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
 
         [Parameter(
-            ParameterSetName = "AssemblyFilePath",
+            ParameterSetName = "SetAssemblyVersion",
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         public string AssemblyFilePath { get; set; }
 
-        [Parameter(Position = 1)]
+        [Parameter(ParameterSetName = "SetAssemblyVersion",
+            Position = 1)]
         public string NewVersion { get; set; }
 
         [Parameter]
@@ -27,19 +28,20 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
+            var content = _assemblyVersionFileHelper.ReadAssemblyFileContent(AssemblyFilePath);
+            var newVersion = NewVersion ?? _assemblyVersionFileHelper.ReadAssemblyVersion(content);
             if (IncrementBuild)
             {
                 WriteVerbose($"{nameof(IncrementBuild)} {newVersion}");
-                newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionBuild(newVersion);
+                newVersion = _assemblyVersionFileHelper.IncrementAssemblyVersionBuild(newVersion);
             }
             if (IncrementRevision)
             {
                 WriteVerbose($"{nameof(IncrementRevision)} {newVersion}");
-                newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
+                newVersion = _assemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
             WriteVerbose($"Set AssemblyVersion in {AssemblyFilePath} to {newVersion}");
-            AssemblyVersionFileHelper.WriteAssemblyVersionToPath(AssemblyFilePath, newVersion);
+            _assemblyVersionFileHelper.WriteAssemblyVersionToPath(AssemblyFilePath, newVersion);
             WriteObject(newVersion);
         }
     }

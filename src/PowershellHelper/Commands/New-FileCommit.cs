@@ -4,35 +4,35 @@ using PowershellHelper.Services;
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.New, "FileCommit",
-        DefaultParameterSetName = "VersionCommit")]
-    public class NewAssemblyVersionCommit : PSCmdlet
+        DefaultParameterSetName = "FileCommit")]
+    public class NewFileCommit : PSCmdlet
     {
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "FileCommit",
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         public string FilePath { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "FileCommit",
             Mandatory = true,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "FileCommit",
             Mandatory = true)]
         public string UserName { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "FileCommit",
             Mandatory = true)]
         public string UserEmail { get; set; }
 
         [Parameter(
-            ParameterSetName = "VersionCommit",
+            ParameterSetName = "FileCommit",
             Mandatory = true)]
         public string Message { get; set; }
 
@@ -42,7 +42,7 @@ namespace PowershellHelper.Commands
         protected override void ProcessRecord()
         {
             var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName);
-            WriteVerbose("CommitFile");
+            WriteVerbose($"CommitFile {FilePath} as {UserName}<{UserEmail}> with {Message}");
             gitHelper.CommitFile(FilePath, UserName, UserEmail, Message);
             if (!string.IsNullOrWhiteSpace(Tag))
             {

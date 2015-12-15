@@ -9,11 +9,11 @@ namespace PowershellHelper.Test
         private AssemblyVersionFileHelper AssemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
 
         [Theory]
-        [InlineData(@"C:\Github\autoincrement-assemblyversion\src\AssemblyInfo.cs", "5.5.5.6")]
-        public void TestSetAssemblyVersion(string assemblyPath, string version)
+        [InlineData("[assembly: AssemblyVersion(\"1.1.1.1\")]\r\n[assembly: AssemblyFileVersion(\"1.1.1.1\")]\r\n", "5.5.5.6")]
+        public void TestSetAssemblyVersion(string assemblyContent, string version)
         {
-            AssemblyVersionFileHelper.WriteAssemblyVersion(assemblyPath, version);
-            Assert.Contains(version, File.ReadAllText(assemblyPath));
+            assemblyContent = AssemblyVersionFileHelper.WriteAssemblyVersion(assemblyContent, version);
+            Assert.Contains(version, assemblyContent);
         }
 
         [Theory]
