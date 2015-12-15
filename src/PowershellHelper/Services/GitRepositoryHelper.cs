@@ -12,12 +12,7 @@ namespace PowershellHelper.Services
         public GitRepositoryHelper(string repositoryPath, string username, string password = "")
         {
             Repository = new Repository(repositoryPath);
-            _pushOptions = CreatePushOptions(username, password);
-        }
-
-        private PushOptions CreatePushOptions(string username, string password)
-        {
-            return new PushOptions
+            _pushOptions = new PushOptions
             {
                 CredentialsProvider = (url, userNameFromUrl, types) =>
                 {
@@ -73,7 +68,5 @@ namespace PowershellHelper.Services
                 Push(branch.CanonicalName);
             }
         }
-
-
     }
 }
