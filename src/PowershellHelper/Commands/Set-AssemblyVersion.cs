@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using System.Reflection;
 using PowershellHelper.Services;
 
 namespace PowershellHelper.Commands
@@ -27,7 +28,7 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
+            var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
             if (IncrementBuild)
             {
                 WriteVerbose($"IncrementBuild {newVersion}");
@@ -39,7 +40,7 @@ namespace PowershellHelper.Commands
                 newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
             WriteVerbose($"Set AssemblyVersion in {AssemblyFilePath} to {newVersion}");
-            AssemblyVersionFileHelper.WriteAssemblyVersionToFile(AssemblyFilePath, newVersion);
+            AssemblyVersionFileHelper.WriteAssemblyVersionToPath(AssemblyFilePath, newVersion);
             WriteObject(newVersion);
         }
     }

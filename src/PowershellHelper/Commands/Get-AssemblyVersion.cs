@@ -19,7 +19,7 @@ namespace PowershellHelper.Commands
         protected override void ProcessRecord()
         {
             WriteVerbose($"Get-AssemblyVersion in {AssemblyFilePath}");
-            var version = AssemblyVersionFileHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
+            var version = AssemblyVersionFileHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
             WriteVerbose($"Found version {version}");
             WriteObject(version);
         }

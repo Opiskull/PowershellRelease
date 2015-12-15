@@ -47,11 +47,11 @@ namespace PowershellHelper.Commands
             var assemblyHelper = new AssemblyVersionFileHelper();
             
             // Assembly
-            var readVersion = assemblyHelper.ReadAssemblyVersionFromFile(AssemblyFilePath);
+            var readVersion = assemblyHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
             WriteVerbose($"Found Version {readVersion}");
             var newVersion = assemblyHelper.IncrementAssemblyVersionRevision(readVersion);
             WriteVerbose($"Increment Version to {newVersion}");
-            assemblyHelper.WriteAssemblyVersionToFile(AssemblyFilePath, newVersion);
+            assemblyHelper.WriteAssemblyVersionToPath(AssemblyFilePath, newVersion);
 
             // Git
             WriteVerbose($"Commit File {AssemblyFilePath}");
