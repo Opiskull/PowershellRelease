@@ -1,17 +1,16 @@
 ﻿using System.Management.Automation;
-using System.Reflection;
 using PowershellHelper.Services;
 
 namespace PowershellHelper.Commands
 {
     [Cmdlet(VerbsCommon.Set, "AssemblyVersion",
-        DefaultParameterSetName = "FileName")]
+        DefaultParameterSetName = "AssemblyFilePath")]
     public class SetAssemblyVersion : PSCmdlet
     {
         private AssemblyVersionFileHelper AssemblyVersionFileHelper { get; } = new AssemblyVersionFileHelper();
 
         [Parameter(
-            ParameterSetName = "FileName",
+            ParameterSetName = "AssemblyFilePath",
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -31,12 +30,12 @@ namespace PowershellHelper.Commands
             var newVersion = NewVersion ?? AssemblyVersionFileHelper.ReadAssemblyVersionFromPath(AssemblyFilePath);
             if (IncrementBuild)
             {
-                WriteVerbose($"IncrementBuild {newVersion}");
+                WriteVerbose($"{nameof(IncrementBuild)} {newVersion}");
                 newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionBuild(newVersion);
             }
             if (IncrementRevision)
             {
-                WriteVerbose($"IncrementRevision {newVersion}");
+                WriteVerbose($"{nameof(IncrementRevision)} {newVersion}");
                 newVersion = AssemblyVersionFileHelper.IncrementAssemblyVersionRevision(newVersion);
             }
             WriteVerbose($"Set AssemblyVersion in {AssemblyFilePath} to {newVersion}");
