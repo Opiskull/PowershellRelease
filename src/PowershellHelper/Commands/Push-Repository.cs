@@ -26,6 +26,11 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
+            if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(UserPassword))
+            {
+                WriteVerbose($"{nameof(UserName)} or {nameof(UserPassword)} are not specified! the default credentials will be used");
+            }
+
             var gitHelper = new GitRepositoryHelper(RepositoryPath);
             if (Tags?.Length > 0)
             {
