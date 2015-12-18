@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation;
 using PowershellHelper.Services;
 
@@ -51,7 +52,11 @@ namespace PowershellHelper.Commands
             }
             else
             {
-                WriteWarning($"{nameof(AssemblyFileVersion)} OR {nameof(AssemblyInformationalVersion)} OR {nameof(AssemblyVersion)} should be set!");
+                WriteError(new ErrorRecord(
+                    new ArgumentException(
+                        $"At least 1 of {nameof(AssemblyFileVersion)} or {nameof(AssemblyInformationalVersion)} or {nameof(AssemblyVersion)} should be specified!"),
+                    "NoOutputSpecified",
+                    ErrorCategory.InvalidData, this));
             }
         }
     }
