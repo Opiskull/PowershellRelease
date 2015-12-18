@@ -13,7 +13,7 @@ namespace PowershellHelper.Test
         public void PushHeadRepository(string repositoryPath)
         {
             var gitHelper = new GitRepositoryHelper(repositoryPath, "opiskull", "myPassword");
-            gitHelper.PushBranch(gitHelper.Repository.Head);
+            gitHelper.Push(gitHelper.Repository.Head.Name);
         }
 
         [Theory]

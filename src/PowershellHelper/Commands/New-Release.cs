@@ -64,7 +64,7 @@ namespace PowershellHelper.Commands
             gitHelper.PushTag(newVersion);
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.PushBranch(branch);
+            gitHelper.Push(branch.Name);
         }
     }
 }

@@ -15,9 +15,7 @@ namespace PowershellHelper.Commands
         [ValidateNotNullOrEmpty]
         public string RepositoryPath { get; set; }
 
-        [Parameter(
-            ParameterSetName = "PushRepository",
-            Mandatory = true)]
+        [Parameter]
         public string UserName { get; set; }
 
         [Parameter]
@@ -39,7 +37,7 @@ namespace PowershellHelper.Commands
             }
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.PushBranch(branch);
+            gitHelper.Push(branch.Name);
         }
     }
 }
