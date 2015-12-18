@@ -39,18 +39,9 @@ namespace PowershellHelper.Commands
         [Parameter]
         public string Tag { get; set; }
 
-        [Parameter]
-        public string CheckOutBranchBeforeCommit { get; set; }
-
         protected override void ProcessRecord()
         {
             var gitHelper = new GitRepositoryHelper(RepositoryPath);
-
-            if (!string.IsNullOrWhiteSpace(CheckOutBranchBeforeCommit))
-            {
-                WriteVerbose($"Checking out {CheckOutBranchBeforeCommit}");
-                gitHelper.CheckOut(CheckOutBranchBeforeCommit);
-            }
 
             WriteVerbose($"CommitFile {FilePath} as {UserName}<{UserEmail}> with {Message}");
             gitHelper.CommitFile(FilePath, UserName, UserEmail, Message);
