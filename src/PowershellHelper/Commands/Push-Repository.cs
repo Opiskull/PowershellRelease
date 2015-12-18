@@ -32,17 +32,15 @@ namespace PowershellHelper.Commands
             }
 
             var gitHelper = new GitRepositoryHelper(RepositoryPath);
-            if (Tags?.Length > 0)
-            {
-                foreach (var tag in Tags)
-                {
-                    WriteVerbose($"Push Tag {tag}");
-                    gitHelper.PushTag(tag, UserName, UserPassword);
-                }
-            }
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.Push(branch.Name, UserName, UserPassword);
+            gitHelper.PushBranch(branch.Name, UserName, UserPassword);
+            if (!(Tags?.Length > 0)) return;
+            foreach (var tag in Tags)
+            {
+                WriteVerbose($"Push Tag {tag}");
+                gitHelper.PushTag(tag, UserName, UserPassword);
+            }
         }
     }
 }
