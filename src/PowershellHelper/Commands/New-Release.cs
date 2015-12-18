@@ -13,14 +13,14 @@ namespace PowershellHelper.Commands
             Mandatory = true,
             Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string AssemblyFilePath { get; set; }
+        public string RepositoryPath { get; set; }
 
         [Parameter(
             ParameterSetName = "NewRelease",
             Mandatory = true,
             Position = 1)]
         [ValidateNotNullOrEmpty]
-        public string RepositoryPath { get; set; }
+        public string AssemblyFilePath { get; set; }
 
         [Parameter(
             ParameterSetName = "NewRelease",
