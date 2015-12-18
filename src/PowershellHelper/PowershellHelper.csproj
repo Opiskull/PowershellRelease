@@ -60,6 +60,7 @@
     <Compile Include="Commands\New-ZipFile.cs" />
     <Compile Include="Commands\Push-Repository.cs" />
     <Compile Include="Commands\New-FileCommit.cs" />
+    <Compile Include="Commands\Set-Branch.cs" />
     <Compile Include="Services\AssemblyVersionFileHelper.cs" />
     <Compile Include="Services\GitRepositoryHelper.cs" />
     <Compile Include="Commands\Get-AssemblyVersion.cs" />
