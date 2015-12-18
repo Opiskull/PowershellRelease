@@ -12,15 +12,15 @@ namespace PowershellHelper.Test
         [InlineData(@"C:\Github\autoincrement-assemblyversion")]
         public void PushHeadRepository(string repositoryPath)
         {
-            var gitHelper = new GitRepositoryHelper(repositoryPath, "opiskull", "myPassword");
-            gitHelper.Push(gitHelper.Repository.Head.Name);
+            var gitHelper = new GitRepositoryHelper(repositoryPath);
+            gitHelper.Push(gitHelper.Repository.Head.Name, "opiskull", "myPassword");
         }
 
         [Theory]
         [InlineData(@"C:\Github\autoincrement-assemblyversion")]
         public void PushTag(string repositoryPath)
         {
-            var gitHelper = new GitRepositoryHelper(repositoryPath, "opiskull", "myPassword");
+            var gitHelper = new GitRepositoryHelper(repositoryPath);
             var tag = string.Join(".", new[]
             {
                 Random.Next(1000),
@@ -29,7 +29,7 @@ namespace PowershellHelper.Test
                 Random.Next(1000)
             });
             gitHelper.CreateTag(tag);
-            gitHelper.PushTag(tag);
+            gitHelper.PushTag(tag, "opiskull", "myPassword");
         }
     }
 }

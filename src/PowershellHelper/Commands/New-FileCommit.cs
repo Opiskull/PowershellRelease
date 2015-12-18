@@ -44,7 +44,7 @@ namespace PowershellHelper.Commands
 
         protected override void ProcessRecord()
         {
-            var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath);
 
             if (!string.IsNullOrWhiteSpace(CheckOutBranchBeforeCommit))
             {

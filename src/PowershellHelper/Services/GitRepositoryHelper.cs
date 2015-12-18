@@ -7,26 +7,9 @@ namespace PowershellHelper.Services
     {
         public Repository Repository { get; }
 
-        private readonly PushOptions _pushOptions;
-
-        public GitRepositoryHelper(string repositoryPath, string username, string password = "")
+        public GitRepositoryHelper(string repositoryPath)
         {
             Repository = new Repository(repositoryPath);
-            _pushOptions = new PushOptions
-            {
-                CredentialsProvider = (url, userNameFromUrl, types) =>
-                {
-                    if (string.IsNullOrWhiteSpace(password))
-                    {
-                        return new DefaultCredentials();
-                    }
-                    return new UsernamePasswordCredentials
-                    {
-                        Username = username,
-                        Password = password
-                    };
-                }
-            };
         }
 
         public string LatestCommitSha()
@@ -46,15 +29,35 @@ namespace PowershellHelper.Services
             Repository.ApplyTag(tag);
         }
 
-        public void Push(string canonicalName, string origin = "origin")
+        public void PushBranch(string branch, string username = "", string password = "", string origin = "origin")
         {
-            var remote = Repository.Network.Remotes[origin];
-            Repository.Network.Push(remote, canonicalName, _pushOptions);
+            Push(Repository.Branches[branch].CanonicalName, username, password, origin);
         }
 
-        public void PushTag(string tag, string origin = "origin")
+        public void Push(string canonicalName, string username = "", string password = "", string origin = "origin")
         {
-            Push(Repository.Tags[tag].CanonicalName);
+            var pushOptions = new PushOptions
+            {
+                CredentialsProvider = (url, userNameFromUrl, types) =>
+                {
+                    if (string.IsNullOrWhiteSpace(password))
+                    {
+                        return new DefaultCredentials();
+                    }
+                    return new UsernamePasswordCredentials
+                    {
+                        Username = username,
+                        Password = password
+                    };
+                }
+            };
+            var remote = Repository.Network.Remotes[origin];
+            Repository.Network.Push(remote, canonicalName, pushOptions);
+        }
+
+        public void PushTag(string tag, string username = "", string password = "", string origin = "origin")
+        {
+            Push(Repository.Tags[tag].CanonicalName,username,password,origin);
         }
 
         public void CheckOut(string branch)
