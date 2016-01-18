@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Get-LatestCommit.cs" />
     <Compile Include="Commands\New-Release.cs" />
     <Compile Include="Commands\New-ZipFile.cs" />
     <Compile Include="Commands\Push-Repository.cs" />

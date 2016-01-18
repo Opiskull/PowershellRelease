@@ -34,7 +34,7 @@ namespace PowershellHelper.Commands
             var gitHelper = new GitRepositoryHelper(RepositoryPath);
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.PushBranch(branch.Name, UserName, UserPassword);
+            gitHelper.Push(branch.CanonicalName, UserName, UserPassword);
             if (!(Tags?.Length > 0)) return;
             foreach (var tag in Tags)
             {
