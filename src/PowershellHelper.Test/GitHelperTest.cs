@@ -31,5 +31,15 @@ namespace PowershellHelper.Test
             gitHelper.CreateTag(tag);
             gitHelper.PushTag(tag, "opiskull", "myPassword");
         }
+
+        [Theory]
+        [InlineData(@"C:\Github\autoincrement-assemblyversion", "refs/heads/test/test")]
+        public void CheckoutRef(string repositoryPath, string canonicalName)
+        {
+            var gitHelper = new GitRepositoryHelper(repositoryPath);
+            gitHelper.CheckOut(canonicalName);
+            var current = gitHelper.Repository.Head.CanonicalName;
+            Assert.Equal(canonicalName, current);
+        }
     }
 }
