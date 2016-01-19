@@ -5,6 +5,8 @@ namespace PowershellHelper.Services
 {
     public class GitRepositoryHelper
     {
+        private const string REFS_HEADS = "refs/heads/";
+
         public Repository Repository { get; }
 
         public GitRepositoryHelper(string repositoryPath)
@@ -60,9 +62,22 @@ namespace PowershellHelper.Services
             Push(Repository.Tags[tag].CanonicalName,username,password,origin);
         }
 
-        public void CheckOut(string branch)
+        public void CheckOut(string canonicalName, string origin = "origin")
         {
-            Repository.Checkout(branch);
+            Branch branch = null;
+            if (canonicalName.StartsWith(REFS_HEADS))
+            {
+                var branchName = canonicalName.Replace(REFS_HEADS, "");
+                var remoteBranchName = $"{origin}/{branchName}";
+                var trackedBranch = Repository.Branches[remoteBranchName];
+                var localBranch = Repository.CreateBranch(branchName, remoteBranchName);
+                branch = Repository.Branches.Update(localBranch, br => br.TrackedBranch = trackedBranch.CanonicalName);
+                Repository.Checkout(branch);
+            }
+            else
+            {
+                Repository.Checkout(canonicalName);
+            }
         }
     }
 }
