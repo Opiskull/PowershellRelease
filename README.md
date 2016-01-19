@@ -12,6 +12,13 @@ Get-AssemblyVersion [-AssemblyFilePath] <string>
 [<CommonParameters>]
 ```
 	
+### Get-LatestCommit
+
+```
+Get-LatestCommit [-RepositoryPath] <string>
+[<CommonParameters>]
+```
+	
 ### New-FileCommit
 
 ```
@@ -44,5 +51,12 @@ Push-Repository [-RepositoryPath] <string> -UserName <string> [-UserPassword <st
 
 ```
 Set-AssemblyVersion [-AssemblyFilePath] <string> [[-NewVersion] <string>] [-IncrementBuild] [-IncrementRevision]
+[<CommonParameters>]
+```
+
+### Set-Branch
+
+```
+Set-Branch [-RepositoryPath] <string> [-Branch] <string>
 [<CommonParameters>]
 ```
