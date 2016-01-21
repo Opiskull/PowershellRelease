@@ -1,5 +1,6 @@
 ﻿using System;
 using LibGit2Sharp;
+using System.Linq;
 
 namespace PowershellHelper.Services
 {
@@ -9,25 +10,31 @@ namespace PowershellHelper.Services
 
         public Repository Repository { get; }
 
-        public GitRepositoryHelper(string repositoryPath)
+        public string UserName { get; }
+
+        public string Password { get; }
+
+        public GitRepositoryHelper(string repositoryPath, string username = "", string password = "")
         {
+            UserName = username;
+            Password = password;
             Repository = new Repository(repositoryPath);
         }
 
-        private PushOptions CreatePushOptions(string username = "", string password = "")
+        private PushOptions CreatePushOptions()
         {
             return new PushOptions
             {
                 CredentialsProvider = (url, userNameFromUrl, types) =>
                 {
-                    if (string.IsNullOrWhiteSpace(password))
+                    if (string.IsNullOrWhiteSpace(Password))
                     {
                         return new DefaultCredentials();
                     }
                     return new UsernamePasswordCredentials
                     {
-                        Username = username,
-                        Password = password
+                        Username = UserName,
+                        Password = Password
                     };
                 }
             };
@@ -50,27 +57,22 @@ namespace PowershellHelper.Services
             Repository.ApplyTag(tag);
         }
 
-        public void PushBranch(string localBranch, string username = "", string password = "")
+        public void PushBranch(string branchName)
         {
-            var branch = Repository.Branches[localBranch];
-            PushBranch(branch, username, password);
+            var branch = Repository.Branches[branchName];
+            Push($"{branch.CanonicalName}:{branch.CanonicalName}");
         }
 
-        public void PushBranch(Branch branch, string username = "", string password = "")
+        private void Push(string refSpec)
         {
-            Repository.Network.Push(branch, CreatePushOptions(username, password));
-        }      
-
-        public void PushCurrentBranch(string username = "", string password = "", string origin = "origin")
-        {
-            PushBranch(Repository.Head,username,password);
+            var remote = Repository.Network.Remotes.Single();
+            Repository.Network.Push(remote, refSpec, CreatePushOptions());
         }
 
-        public void PushTag(string tagName, string username = "", string password = "", string origin = "origin")
+        public void PushTag(string tagName)
         {
-            var remote = Repository.Network.Remotes[origin];
             var tag = Repository.Tags[tagName];
-            Repository.Network.Push(remote, tag.CanonicalName, tag.CanonicalName, CreatePushOptions(username, password));
+            Push($"{tag.CanonicalName}:{tag.CanonicalName}");
         }
 
         public void CheckOut(string canonicalName, string origin = "origin")
@@ -82,7 +84,9 @@ namespace PowershellHelper.Services
                 var remoteBranchName = $"{origin}/{branchName}";
                 var trackedBranch = Repository.Branches[remoteBranchName];
                 var localBranch = Repository.CreateBranch(branchName, remoteBranchName);
-                branch = Repository.Branches.Update(localBranch, br => br.TrackedBranch = trackedBranch.CanonicalName);
+                branch = Repository.Branches.Update(localBranch, br => {
+                    br.TrackedBranch = trackedBranch.CanonicalName;
+                    });
                 Repository.Checkout(branch);
             }
             else

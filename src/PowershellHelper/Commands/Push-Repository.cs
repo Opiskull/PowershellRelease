@@ -31,15 +31,16 @@ namespace PowershellHelper.Commands
                 WriteVerbose($"{nameof(UserName)} or {nameof(UserPassword)} are not specified! the default credentials will be used");
             }
 
-            var gitHelper = new GitRepositoryHelper(RepositoryPath);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName, UserPassword);
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.PushBranch(branch, UserName, UserPassword);
+            gitHelper.PushBranch(branch.Name);
+            WriteVerbose($"Tags Count {Tags.Length}");
             if (!(Tags?.Length > 0)) return;
             foreach (var tag in Tags)
             {
                 WriteVerbose($"Push Tag {tag}");
-                gitHelper.PushTag(tag, UserName, UserPassword);
+                gitHelper.PushTag(tag);
             }
         }
     }

@@ -42,7 +42,7 @@ namespace PowershellHelper.Commands
                 WriteWarning($"The {nameof(UserPassword)} is empty and DefaultCredentials will be used");
             }
 
-            var gitHelper = new GitRepositoryHelper(RepositoryPath);
+            var gitHelper = new GitRepositoryHelper(RepositoryPath, UserName, UserPassword);
             var assemblyHelper = new AssemblyVersionFileHelper();
             
             // Assembly
@@ -61,10 +61,10 @@ namespace PowershellHelper.Commands
 
             // Push
             WriteVerbose($"Push Tag {newVersion}");
-            gitHelper.PushTag(newVersion, UserName, UserPassword);
+            gitHelper.PushTag(newVersion);
             var branch = gitHelper.Repository.Head;
             WriteVerbose($"Push Branch {branch.Name} to Remote origin");
-            gitHelper.PushBranch(branch, UserName, UserPassword);
+            gitHelper.PushBranch(branch.Name);
         }
     }
 }
