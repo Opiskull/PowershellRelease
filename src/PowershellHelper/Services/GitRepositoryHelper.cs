@@ -14,6 +14,25 @@ namespace PowershellHelper.Services
             Repository = new Repository(repositoryPath);
         }
 
+        private PushOptions CreatePushOptions(string username = "", string password = "")
+        {
+            return new PushOptions
+            {
+                CredentialsProvider = (url, userNameFromUrl, types) =>
+                {
+                    if (string.IsNullOrWhiteSpace(password))
+                    {
+                        return new DefaultCredentials();
+                    }
+                    return new UsernamePasswordCredentials
+                    {
+                        Username = username,
+                        Password = password
+                    };
+                }
+            };
+        }
+
         public string LatestCommitSha()
         {
             return Repository.Head.Tip.Sha;
@@ -31,35 +50,27 @@ namespace PowershellHelper.Services
             Repository.ApplyTag(tag);
         }
 
-        public void PushBranch(string branch, string username = "", string password = "", string origin = "origin")
+        public void PushBranch(string localBranch, string username = "", string password = "")
         {
-            Push(Repository.Branches[branch].CanonicalName, username, password, origin);
+            var branch = Repository.Branches[localBranch];
+            PushBranch(branch, username, password);
         }
 
-        public void Push(string canonicalName, string username = "", string password = "", string origin = "origin")
+        public void PushBranch(Branch branch, string username = "", string password = "")
         {
-            var pushOptions = new PushOptions
-            {
-                CredentialsProvider = (url, userNameFromUrl, types) =>
-                {
-                    if (string.IsNullOrWhiteSpace(password))
-                    {
-                        return new DefaultCredentials();
-                    }
-                    return new UsernamePasswordCredentials
-                    {
-                        Username = username,
-                        Password = password
-                    };
-                }
-            };
+            Repository.Network.Push(branch, CreatePushOptions(username, password));
+        }      
+
+        public void PushCurrentBranch(string username = "", string password = "", string origin = "origin")
+        {
+            PushBranch(Repository.Head,username,password);
+        }
+
+        public void PushTag(string tagName, string username = "", string password = "", string origin = "origin")
+        {
             var remote = Repository.Network.Remotes[origin];
-            Repository.Network.Push(remote, canonicalName, pushOptions);
-        }
-
-        public void PushTag(string tag, string username = "", string password = "", string origin = "origin")
-        {
-            Push(Repository.Tags[tag].CanonicalName,username,password,origin);
+            var tag = Repository.Tags[tagName];
+            Repository.Network.Push(remote, tag.CanonicalName, tag.CanonicalName, CreatePushOptions(username, password));
         }
 
         public void CheckOut(string canonicalName, string origin = "origin")
